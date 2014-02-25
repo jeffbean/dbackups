@@ -4,7 +4,7 @@ import os
 
 from fabric.operations import local
 
-from python.database_backup_service.db.database import Database
+from db.database import Database
 
 
 __author__ = 'jbean'

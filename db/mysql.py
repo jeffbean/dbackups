@@ -1,5 +1,5 @@
 # coding=utf-8
-from python.database_backup_service.db.database import Database
+from db.database import Database
 
 __author__ = 'jbean'
 

@@ -1,6 +1,0 @@
-2014-02-22 15:35:45,022 DEBUG  line 74   ['ucp-tts', 'ucp-reviewboard', 'wal-tts', 'wal-sprite']
-2014-02-22 15:35:45,023 INFO   line 92   Found the DB settings in the config file. Continuing.
-2014-02-22 15:35:45,023 DEBUG  line 112  H: mcp-tts-01.mcp.com N: tts
-2014-02-22 15:35:45,023 INFO   line 115  Chose to backup mcp-tts-01.mcp.com
-2014-02-22 15:35:45,023 INFO   line 116  Dump file: [mcp-tts-01.mcp.com-tts-2014-02-22-15-35-45.dump]
-2014-02-22 15:35:45,023 INFO   line 74   Dumping database to file: [c:\users\jbean\appdata\local\temp\mcp-tts-01.mcp.com-tts-2014-02-22-15-35-45.dump]

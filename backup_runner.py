@@ -31,7 +31,7 @@ parser.add_argument('--dump_dir', default=tempfile.gettempdir(), help='Directory
 sub_parser = parser.add_subparsers(help='Service Actions', dest='command')
 
 backup_parser = sub_parser.add_parser('backup', help='Helper functions for backing up a Postgres server')
-backup_parser.add_argument('--upload_url', help='Target URL to upload the resulting backup.')
+backup_parser.add_argument('--upload_url', default=None, help='Target URL to upload the resulting backup.')
 
 clone_parser = sub_parser.add_parser('clone', help='Clone a production DB into a development DB.')
 clone_parser.add_argument('--dev_host', help='The host you want to publish the dumped database to.')
@@ -111,6 +111,7 @@ if __name__ == '__main__':
         logging.info('Dump file: [{}]'.format(db.dump_file_name))
         db.dump()
         logging.info('Dumping DB finished.')
-
-        #upload_dump_to_ucp_hcp(latest_local_db_file, args.upload_url)
+        if args.upload_url:
+            print('uploading to the desired URL')
+            upload_dump_to_ucp_hcp(db.dump_file, args.upload_url)
 
