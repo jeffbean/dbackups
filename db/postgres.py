@@ -4,7 +4,7 @@ import os
 
 from fabric.operations import local
 
-from database import Database
+from python.database_backup_service.db.database import Database
 
 
 __author__ = 'jbean'
@@ -17,7 +17,7 @@ class PostgresDatabase(Database):
         :param database_object:
         """
         Database.restore(self, database_object)
-        cmd = 'pg_restore --host {h} --port {p} --username ' \
+        cmd = '/usr/bin/pg_restore --host {h} --port {p} --username ' \
               '"{u}" --dbname "{db}" --no-password  --verbose ' \
               '"{dump_file}"'.format(h=database_object.db_host, p=database_object.db_port, u=database_object.db_user,
                                      db=database_object.db_name, dump_file=database_object.dump_file)
@@ -40,11 +40,10 @@ class PostgresDatabase(Database):
         /usr/bin/pg_dump -h db1 -U postgres jiradb2 -f $BKROOT.$SUF -F c --oids
         >>$LOGFILE 2>&1
         """
-        Database.dump()
         logging.info('Dumping database to file: [{}]'.format(self.dump_file))
         cmd = '/usr/bin/pg_dump -h {host} -p {port} -U {user} {dbname} -f {file} ' \
-              '-F c --oids --verbose '.format(host=self.db_host, port=self.db_port, user=self.db_user,
-                                              dbname=self.db_name, file=self.dump_file)
+              '-F c --oids --verbose'.format(host=self.db_host, port=self.db_port,
+                                             user=self.db_user, dbname=self.db_name, file=self.dump_file)
 
         local(cmd)
 
@@ -65,3 +64,25 @@ class PostgresDatabase(Database):
 
         logging.debug('Chmod-ing the file to 600 as per postgres docs.')
         os.chmod(pg_pass_file, 0600)
+
+
+class WindowsPostgresDatabase(Database):
+    def dump(self):
+        """
+
+        """
+        logging.info('Dumping database to file: [{}]'.format(self.dump_file))
+        cmd = 'pg_dump.exe -h {host} -p {port} -U {user} -f {file} ' \
+              '-F c --oids --verbose {dbname}'.format(host=self.db_host, port=self.db_port,
+                                                      user=self.db_user, dbname=self.db_name, file=self.dump_file)
+
+        local(cmd)
+
+    def delete_local_db(self, database_name):
+        pass
+
+    def restore(self, database_object):
+        pass
+
+    def create_empty_database(self, new_database_name):
+        pass

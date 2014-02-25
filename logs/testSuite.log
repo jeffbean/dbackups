@@ -1,0 +1,30 @@
+2014-02-22 11:35:58,664 - root - DEBUG - postgres_helper : 82 - Namespace(command='backup', database='wal-tts', dump_dir='c:\\users\\jbean\\appdata\\local\\temp', host=None, password='', port=5432, upload_url='foo', user='postgres')
+2014-02-22 11:35:58,665 - root - DEBUG - postgres_helper : 86 - ['logging', 'dumps', 'paths', 'ucp-tts', 'ucp-reviewboard', 'wal-tts', 'wal-sprite']
+2014-02-22 11:35:58,665 - root - INFO - postgres_helper : 100 - Found the DB settings in the config file. Continuing.
+2014-02-22 11:35:58,665 - root - DEBUG - postgres_helper : 120 - H: tts.archivas.com N: wal-tts
+2014-02-22 11:35:58,665 - root - DEBUG - database : 58 - Checking if the object given is the same one as we need.
+2014-02-22 11:35:58,667 - root - INFO - database : 62 - Going to restore H: tts.archivas.com N: wal-tts into H: tts.archivas.com N: wal-tts
+2014-02-22 11:37:23,105 DEBUG  line 84   Namespace(command='backup', database='wal-tts', dump_dir='c:\\users\\jbean\\appdata\\local\\temp', host=None, password='', port=5432, upload_url='foo', user='postgres')
+2014-02-22 11:37:23,107 DEBUG  line 88   ['logging', 'dumps', 'paths', 'ucp-tts', 'ucp-reviewboard', 'wal-tts', 'wal-sprite']
+2014-02-22 11:37:23,107 INFO   line 102  Found the DB settings in the config file. Continuing.
+2014-02-22 11:37:23,108 DEBUG  line 122  H: tts.archivas.com N: wal-tts
+2014-02-22 11:37:23,108 DEBUG  line 58   Checking if the object given is the same one as we need.
+2014-02-22 11:37:23,108 INFO   line 62   Going to restore H: tts.archivas.com N: wal-tts into H: tts.archivas.com N: wal-tts
+2014-02-22 11:37:41,579 DEBUG  line 84   Namespace(command='backup', database='wal-tts', dump_dir='c:\\users\\jbean\\appdata\\local\\temp', host=None, password='', port=5432, upload_url='foo', user='postgres')
+2014-02-22 11:37:41,581 DEBUG  line 88   ['logging', 'dumps', 'paths', 'ucp-tts', 'ucp-reviewboard', 'wal-tts', 'wal-sprite']
+2014-02-22 11:37:41,581 INFO   line 102  Found the DB settings in the config file. Continuing.
+2014-02-22 11:37:41,582 DEBUG  line 122  H: tts.archivas.com N: wal-tts
+2014-02-22 11:37:41,582 DEBUG  line 58   Checking if the object given is the same one as we need.
+2014-02-22 11:37:41,582 INFO   line 62   Going to restore H: tts.archivas.com N: wal-tts into H: tts.archivas.com N: wal-tts
+2014-02-22 11:37:52,941 DEBUG  line 84   Namespace(command='backup', database='wal-tts', dump_dir='c:\\users\\jbean\\appdata\\local\\temp', host=None, password='', port=5432, upload_url='foo', user='postgres')
+2014-02-22 11:37:52,943 DEBUG  line 88   ['logging', 'dumps', 'paths', 'ucp-tts', 'ucp-reviewboard', 'wal-tts', 'wal-sprite']
+2014-02-22 11:37:52,943 INFO   line 102  Found the DB settings in the config file. Continuing.
+2014-02-22 11:37:52,944 DEBUG  line 122  H: tts.archivas.com N: wal-tts
+2014-02-22 11:37:52,944 DEBUG  line 58   Checking if the object given is the same one as we need.
+2014-02-22 11:37:52,944 INFO   line 62   Going to restore H: tts.archivas.com N: wal-tts into H: tts.archivas.com N: wal-tts
+2014-02-22 11:38:09,703 DEBUG  line 84   Namespace(command='backup', database='wal-tts', dump_dir='c:\\users\\jbean\\appdata\\local\\temp', host=None, password='', port=5432, upload_url='foo', user='postgres')
+2014-02-22 11:38:09,703 DEBUG  line 88   ['logging', 'dumps', 'paths', 'ucp-tts', 'ucp-reviewboard', 'wal-tts', 'wal-sprite']
+2014-02-22 11:38:09,703 INFO   line 102  Found the DB settings in the config file. Continuing.
+2014-02-22 11:38:09,703 DEBUG  line 122  H: tts.archivas.com N: wal-tts
+2014-02-22 11:38:09,703 DEBUG  line 58   Checking if the object given is the same one as we need.
+2014-02-22 11:38:09,703 INFO   line 62   Going to restore H: tts.archivas.com N: wal-tts into H: tts.archivas.com N: wal-tts

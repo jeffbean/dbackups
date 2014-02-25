@@ -74,6 +74,8 @@ class Database(object):
         """
         returns the file path of the latest dump file from the same host and
         database.
+
+        This is useful for restoring an database  from the last good known state
         """
         dump_dir = os.path.dirname(self.dump_file_name)
         files = [os.path.join(dump_dir, f) for f in os.listdir(dump_dir)
