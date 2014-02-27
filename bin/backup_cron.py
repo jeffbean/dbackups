@@ -6,7 +6,7 @@ import logging.config
 import os
 import sys
 
-from src.util.tools import get_database_object, upload_dump_to_ucp_hcp
+from src.util.tools import get_database_object, upload_http_put
 
 
 __author__ = 'jbean'
@@ -38,7 +38,7 @@ def main():
 
     for db_section, db_obj in map_of_db_objects.iteritems():
         db_obj.dump()
-        upload_dump_to_ucp_hcp(db_obj.dump_file,
+        upload_http_put(db_obj.dump_file,
                                config.get(db_section, 'upload_url'),
                                config.get(db_section, 'upload_user'),
                                config.get(db_section, 'upload_pass'),

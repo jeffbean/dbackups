@@ -10,7 +10,7 @@ import tempfile
 
 from fabric.operations import prompt
 
-from src.util.tools import get_database_object, upload_dump_to_ucp_hcp
+from src.util.tools import get_database_object, upload_http_put
 
 
 __author__ = 'jbean'
@@ -97,7 +97,7 @@ def main():
         logging.info('Dumping DB finished.')
         if args.upload_url:
             print('Uploading to the desired URL: {}'.format(args.upload_url))
-            upload_dump_to_ucp_hcp(db.dump_file, args.upload_url, None, None)
+            upload_http_put(db.dump_file, args.upload_url, None, None)
 
     if args.command == 'clone':
         #logging.info('Going to clone from one DB to another.')
