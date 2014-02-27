@@ -9,7 +9,7 @@ import requests
 from requests.auth import AuthBase, HTTPBasicAuth
 
 from src.db.mysql import MySQLDatabase
-from src.postgres import WindowsPostgresDatabase, PostgresDatabase
+from src.db.postgres import WindowsPostgresDatabase, PostgresDatabase
 
 
 __author__ = 'jbean'

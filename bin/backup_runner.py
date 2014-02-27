@@ -43,10 +43,7 @@ clone_parser.add_argument('-l', dest='latest_local', default=False, action='stor
 parser.add_argument('database', help='The database name you want to clone.')
 
 
-
-
-
-if __name__ == '__main__':
+def main():
     if not os.path.isdir(os.path.join(BASE_DIR, '../logs')):
         os.mkdir(os.path.join(BASE_DIR, '../logs'))
 
@@ -106,3 +103,7 @@ if __name__ == '__main__':
         #logging.info('Going to clone from one DB to another.')
         logging.error('This feature is not implemented yet.')
         print('This feature is not implemented yet.')
+
+
+if __name__ == '__main__':
+    main()
