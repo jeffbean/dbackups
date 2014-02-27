@@ -7,21 +7,21 @@ import os
 from pprint import pprint
 import sys
 
-from tools import get_database_object, upload_dump_to_ucp_hcp
+from src.util.tools import get_database_object, upload_dump_to_ucp_hcp
 
 
 __author__ = 'jbean'
 
-logging_config = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config', 'logging.ini'))
+logging_config = os.path.abspath(os.path.join(os.path.dirname(__file__), '../config', 'logging.ini'))
 logging.config.fileConfig(logging_config)
 
 if __name__ == '__main__':
-    config_file = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config', 'backup_database.ini'))
+    config_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '../config', 'backup_database.ini'))
     if not os.path.isfile(config_file):
         print('Config File not found. {}'.format(config_file))
         sys.exit(1)
 
-    logging_config = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config', 'logging.ini'))
+    logging_config = os.path.abspath(os.path.join(os.path.dirname(__file__), '../config', 'logging.ini'))
     logging.config.fileConfig(logging_config)
 
     config = ConfigParser.ConfigParser()
@@ -45,4 +45,5 @@ if __name__ == '__main__':
         upload_dump_to_ucp_hcp(db_obj.dump_file,
                                config.get(db_section, 'upload_url'),
                                config.get(db_section, 'upload_user'),
-                               config.get(db_section, 'upload_pass'))
+                               config.get(db_section, 'upload_pass'),
+                               verify_request=False)

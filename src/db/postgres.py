@@ -4,7 +4,7 @@ import os
 
 from fabric.operations import local
 
-from db.database import Database
+from src.db.database import Database
 
 
 __author__ = 'jbean'

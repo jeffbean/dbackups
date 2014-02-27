@@ -3,7 +3,7 @@ import logging
 
 from fabric.operations import local
 
-from db.database import Database
+from src.db.database import Database
 
 
 __author__ = 'jbean'
@@ -20,10 +20,13 @@ class MySQLDatabase(Database):
             /usr/bin/pg_dump -h db1 -U postgres jiradb2 -f $BKROOT.$SUF -F c --oids
             >>$LOGFILE 2>&1
             """
+        args = ''
         logger.info('Dumping database to file: [{}]'.format(self.dump_file))
-        cmd = '/usr/bin/mysqldump -h {host} -P {port} -u {user} -p{passwd} {dbname} > {file}'.format(
+        if self.db_pass:
+            args += '-p{}'.format(self.db_pass)
+        cmd = '/usr/bin/mysqldump -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
             host=self.db_host, port=self.db_port,
-            passwd=self.db_pass, user=self.db_user,
+            args=args, user=self.db_user,
             dbname=self.db_name, file=self.dump_file)
 
         local(cmd)
