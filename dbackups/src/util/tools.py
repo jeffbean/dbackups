@@ -1,12 +1,12 @@
 # coding=utf-8
 import logging
-import os
 import sys
 
+import os
 import requests
 from requests.auth import HTTPBasicAuth
 
-from src.db.mysql import MySQLDatabase
+from dbackups.src.db.mysql import MySQLDatabase
 from src.db.postgres import WindowsPostgresDatabase, PostgresDatabase
 
 

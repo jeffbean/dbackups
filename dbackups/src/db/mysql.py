@@ -3,7 +3,7 @@ import logging
 
 from fabric.operations import local
 
-from src.db.database import Database
+from dbackups.src.db.database import Database
 
 
 __author__ = 'jbean'

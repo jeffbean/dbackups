@@ -3,10 +3,11 @@
 import ConfigParser
 import logging
 import logging.config
-import os
 import sys
 
-from src.util.tools import get_database_object, upload_http_put
+import os
+
+from dbackups.src.util.tools import get_database_object, upload_http_put
 
 
 __author__ = 'jbean'
