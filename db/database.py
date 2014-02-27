@@ -55,6 +55,14 @@ class Database(object):
         pass
 
     @abstractmethod
+    def clone(self, another_database_object):
+        logger.debug('Checking if the object given is the same one as we need.')
+        if not isinstance(another_database_object, self.__class__):
+            raise RestoreDatabaseMismatchException(
+                'The object to restore needs to be the same Database Object Type as the one being cloned to.')
+        logger.info('Trying to restore {} into {}'.format(self, another_database_object))
+
+    @abstractmethod
     def restore(self, database_object):
         logger.debug('Checking if the object given is the same one as we need.')
         if not isinstance(database_object, self.__class__):
@@ -67,7 +75,7 @@ class Database(object):
         pass
 
     @abstractmethod
-    def delete_local_db(self, database_name):
+    def drop_db(self):
         pass
 
     def find_latest_dump(self):

@@ -8,11 +8,9 @@ import sys
 import os
 import tempfile
 
-from fabric.api import local
 from fabric.operations import prompt
 
-from db.postgres import PostgresDatabase, WindowsPostgresDatabase
-from db.mysql import MySQLDatabase
+from tools import get_database_object, upload_dump_to_ucp_hcp
 
 
 __author__ = 'jbean'
@@ -34,19 +32,18 @@ backup_parser = sub_parser.add_parser('backup', help='Helper functions for backi
 backup_parser.add_argument('--upload_url', default=None, help='Target URL to upload the resulting backup.')
 
 clone_parser = sub_parser.add_parser('clone', help='Clone a production DB into a development DB.')
-clone_parser.add_argument('--dev_host', help='The host you want to publish the dumped database to.')
+clone_parser.add_argument('--dev_host', default='localhost', help='The host you want to publish the dumped database '
+                                                                  'to.')
 clone_parser.add_argument('--dev_port', help='The port to the DB going to be restored to.')
 clone_parser.add_argument('--dev_user', help='The  user that can perform a restore.')
 clone_parser.add_argument('--dev_password', help='The user password for performing the actions.')
-clone_parser.add_argument('-l', default=False, action='store_true', help='If you want to use the latest local dump.')
+clone_parser.add_argument('-l', dest='latest_local', default=False, action='store_true',
+                          help='If you want to use the latest local dump.')
 
 parser.add_argument('database', help='The database name you want to clone.')
 
 
-def upload_dump_to_ucp_hcp(file_to_upload, upload_url):
-    logging.info('About to upload file: {}'.format(file_to_upload))
-    local('curl -u ucpbackup:534hawks -k -T {} {}'.format(file_to_upload, upload_url))
-    logging.info('Finished uploading file to {}.'.format(upload_url))
+
 
 
 if __name__ == '__main__':
@@ -69,7 +66,8 @@ if __name__ == '__main__':
     logging.debug(config.sections())
 
     if sys.platform == 'win32':
-        cmd = '[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files (x86)\PostgreSQL\8.4\bin",  [System.EnvironmentVariableTarget]::User)'
+        cmd = '[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files (x86)\PostgreSQL\8' \
+              '.4\bin",  [System.EnvironmentVariableTarget]::User)'
 
     if not config.has_section(args.database):
         logging.info('DB not found in the config file. [{}]'.format(args.database))
@@ -92,19 +90,8 @@ if __name__ == '__main__':
         db_port = config.get(args.database, 'db_port')
         db_name = config.get(args.database, 'db_name')
 
-    if db_type == 'postgresql':
-        if sys.platform == 'win32':
-            db = WindowsPostgresDatabase(db_host, db_name, db_user, db_pass, db_port)
-        else:
-            db = PostgresDatabase(db_host, db_name, db_user, db_pass, db_port)
-    elif db_type == 'mysql':
-        db = MySQLDatabase(db_host, db_name, db_user, db_pass, db_port)
-    else:
-        logging.error('Not a supported DB for this service: {}'.format(db_type))
-        logging.info('Supported types are: {}'.format(config.get('DEFAULT', 'supported_db_types')))
-        sys.exit(1)
-
-    logging.debug(db)
+    db = get_database_object(db_type, db_host, db_name, db_user, db_pass, db_port)
+    logging.debug('DB object created: {}'.format(db))
 
     if args.command == 'backup':
         logging.info('Chose to backup {}'.format(db.db_host))
@@ -112,6 +99,10 @@ if __name__ == '__main__':
         db.dump()
         logging.info('Dumping DB finished.')
         if args.upload_url:
-            print('uploading to the desired URL')
-            upload_dump_to_ucp_hcp(db.dump_file, args.upload_url)
+            print('Uploading to the desired URL: {}'.format(args.upload_url))
+            upload_dump_to_ucp_hcp(db.dump_file, args.upload_url, None, None)
 
+    if args.command == 'clone':
+        #logging.info('Going to clone from one DB to another.')
+        logging.error('This feature is not implemented yet.')
+        print('This feature is not implemented yet.')

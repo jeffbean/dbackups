@@ -11,6 +11,20 @@ __author__ = 'jbean'
 
 
 class PostgresDatabase(Database):
+    def __init__(self, db_host, db_name, db_user, db_pass, db_port=5432):
+        Database.__init__(self, db_host, db_name, db_user, db_pass, db_port)
+
+    def clone(self, another_database_object):
+        """
+        @param another_database_object
+        @type another_database_object PostgresDatabase
+        """
+        Database.clone(another_database_object)
+        self.dump()
+        another_database_object.drop_db()
+        another_database_object.create_empty_database(another_database_object.db_name)
+        self.restore(another_database_object)
+
     def restore(self, database_object):
         """
         restores the dump file to the dev postgres server
@@ -26,13 +40,13 @@ class PostgresDatabase(Database):
     def create_empty_database(self, new_database_name):
         Database.create_empty_database(new_database_name)
 
-    def delete_local_db(self, database_name):
+    def drop_db(self):
         """
         locally drop the database that you will be restoring to
         """
-        Database.delete_local_db(database_name)
+        Database.drop_db()
         cmd = 'dropdb --host {h} -p {p} -U {u} {db} --if-exists'.format(
-            h=self.db_host, p=self.db_port, u=self.db_user, db=database_name)
+            h=self.db_host, p=self.db_port, u=self.db_user, db=self.db_name)
         local(cmd)
 
     def dump(self):
@@ -78,7 +92,7 @@ class WindowsPostgresDatabase(Database):
 
         local(cmd)
 
-    def delete_local_db(self, database_name):
+    def drop_db(self):
         pass
 
     def restore(self, database_object):
