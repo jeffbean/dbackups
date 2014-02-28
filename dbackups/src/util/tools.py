@@ -7,7 +7,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from dbackups.src.db.mysql import MySQLDatabase
-from src.db.postgres import WindowsPostgresDatabase, PostgresDatabase
+from dbackups.src.db.postgres import WindowsPostgresDatabase, PostgresDatabase
 
 
 __author__ = 'jbean'

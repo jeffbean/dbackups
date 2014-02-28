@@ -19,11 +19,7 @@ Requirements:
 
 Install using `pip`.
 
-    pip install dbackups
-
-or
-
-    pip install git@git.mcp.com:jbean/dbackups.git
+    pip install git+ssh://git@git.mcp.com/jbean/dbackups.git
 
 Configure
 ---------
