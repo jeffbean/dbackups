@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
+from dbackups.util.commands import CommandError
 
 __author__ = 'jbean'
 
@@ -49,7 +50,14 @@ def main():
             map_of_db_objects[db_alias] = db
 
     for db_section, db_obj in map_of_db_objects.iteritems():
-        db_obj.dump()
+        try:
+            db_obj.dump()
+        except CommandError as e:
+            logging.exception(e)
+            logging.error('Failed to dump database: {}'.format(db_obj.db_name))
+            logging.info('Moving on to the next database.')
+            continue
+
         upload_http_put(db_obj.dump_file,
                         config.get(db_section, 'upload_url'),
                         config.get(db_section, 'upload_user'),

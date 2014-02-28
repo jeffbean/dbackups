@@ -26,7 +26,7 @@ class MySQLDatabase(Database):
         logger.info('Dumping database to file: [{}]'.format(self.dump_file))
         if self.db_pass:
             args += '-p{}'.format(self.db_pass)
-        cmd = '/usr/bin/mysqldump -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
+        cmd = '/usr/bin/mysqldump --single-transaction -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
             host=self.db_host, port=self.db_port,
             args=args, user=self.db_user,
             dbname=self.db_name, file=self.dump_file)
