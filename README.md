@@ -5,8 +5,8 @@ Overview
 --------
 The purpose of this tool is to make backing up databases in bulk easy to do. This service runs database actions based on a config file. No implementation details are needed to backup you common databases.
 
-## Installation
-
+Installation
+------------
 Setup Requirements:
 
 * setuptools_git
@@ -25,8 +25,8 @@ or
 
     pip install git@git.mcp.com:jbean/dbackups.git
 
-## Configure
-
+Configure
+---------
 The purpose of this package is that now backing up multiple databases within an infrastructure. You can also specify
 where to upload the backups.
 
@@ -54,8 +54,8 @@ Config Files:
     upload_user = backupuser
     upload_pass = password543
 
-## Test install
-
+Test install
+------------
 To test that the package installed correctly with the python path setup run the following:
 
     dbackuptest
