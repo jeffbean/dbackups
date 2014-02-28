@@ -1,7 +1,7 @@
 # coding=utf-8
 import logging
-import os
 
+import os
 
 from dbackups.db.database import Database
 from dbackups.util.commands import assert_command
@@ -56,8 +56,8 @@ class PostgresDatabase(Database):
         """
         logging.info('Dumping database to file: [{}]'.format(self.dump_file))
         cmd = '/usr/bin/pg_dump -h {host} -p {port} -U {user} {dbname} -f {file} ' \
-              '-F c --oids --verbose'.format(host=self.db_host, port=self.db_port,
-                                             user=self.db_user, dbname=self.db_name, file=self.dump_file)
+              '-F c --oids'.format(host=self.db_host, port=self.db_port,
+                                   user=self.db_user, dbname=self.db_name, file=self.dump_file)
 
         assert_command(cmd)
 

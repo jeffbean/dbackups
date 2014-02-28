@@ -29,7 +29,7 @@ Config File:
 
 Windows
 
-    %HOMEPATH%\.dbackups\databases.ini
+    %HOMEPATH%/.dbackups/databases.ini
 
 Linux
 

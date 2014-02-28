@@ -38,10 +38,13 @@ def upload_http_put(file_to_upload, upload_url, user, password, verify_request=T
     logger.info('About to upload file: {}'.format(file_to_upload))
     logger.debug('Upload url: {}'.format(upload_url))
     logger.debug('Upload Credentials -> User: {} Password: {}'.format(user, password))
-    r = requests.put('{}/{}'.format(upload_url, os.path.basename(file_to_upload)),
-                     data=file_to_upload,
-                     auth=HTTPBasicAuth(user, password),
-                     verify=verify_request)
+
+    with open(file_to_upload) as file_obj:
+        r = requests.put('{}/{}'.format(upload_url, os.path.basename(file_to_upload)),
+                         data=file_obj.read(),
+                         auth=HTTPBasicAuth(user, password),
+                         verify=verify_request)
+
     logger.debug('Request URL: {}'.format(r.url))
     r.raise_for_status()
     logger.info('Finished uploading file to {}.'.format(r.url))

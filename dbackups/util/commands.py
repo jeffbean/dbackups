@@ -1,3 +1,4 @@
+# coding=utf-8
 import logging
 import subprocess
 
@@ -12,7 +13,6 @@ class CommandError(Exception):
 
 def assert_command(command):
     logger.debug('Command given: {}'.format(command))
-    print(command)
     child = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     (stdoutdata, stderrdata) = child.communicate()
     logger.debug('Out:  {}'.format(stdoutdata))

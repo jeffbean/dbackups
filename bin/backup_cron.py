@@ -1,32 +1,33 @@
 #!/usr/bin/env python
 # coding=utf-8
+
 __author__ = 'jbean'
 
 import ConfigParser
 import logging
 import logging.config
 import sys
+
 import os
-
 from pkg_resources import resource_filename
-
-
-if not os.path.isdir('../logs'):
-    os.mkdir('../logs')
-
-logging_config = resource_filename(__name__, '../config/logging.ini')
-logging.config.fileConfig(logging_config)
 
 from dbackups.util.tools import get_database_object, upload_http_put
 
 
 def main():
-    home_dir = os.environ.get('HOMEPATH') if not os.environ.get('HOME') else '/tmp'
-    config_dir = os.path.abspath(os.path.join(home_dir, '.dbackups'))
-    db_config_file = os.path.join(config_dir, 'databases.ini')
+    home_dir = os.path.expanduser('~')
+    program_dir = os.path.abspath(os.path.join(home_dir, '.dbackups'))
+    db_config_file = os.path.join(program_dir, 'databases.ini')
 
-    if not os.path.isdir(config_dir):
-        os.mkdir(config_dir)
+    log_dir = os.path.join(program_dir, 'logs')
+    if not os.path.isdir(log_dir):
+        os.mkdir(log_dir)
+
+    logging_config = resource_filename(__name__, '../config/logging.ini')
+    logging.config.fileConfig(logging_config)
+
+    if not os.path.isdir(program_dir):
+        os.mkdir(program_dir)
 
     if not os.path.isfile(db_config_file):
         print('Config File not found. {}'.format(db_config_file))
