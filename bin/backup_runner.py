@@ -9,6 +9,7 @@ import tempfile
 
 import os
 from fabric.operations import prompt
+from pkg_resources import resource_filename
 
 from dbackups.src.util.tools import get_database_object, upload_http_put
 
@@ -47,12 +48,13 @@ def main():
     if not os.path.isdir(os.path.join(BASE_DIR, '../logs')):
         os.mkdir(os.path.join(BASE_DIR, '../logs'))
 
-    config_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '../config', 'backup_database.ini'))
+    config_file = resource_filename(__name__, '../config/dbackup.ini')
+
     if not os.path.isfile(config_file):
         print('Config File not found. {}'.format(config_file))
         sys.exit(1)
 
-    logging_config = os.path.abspath(os.path.join(os.path.dirname(__file__), '../config', 'logging.ini'))
+    logging_config = resource_filename(__name__, '../config/logging.ini')
     logging.config.fileConfig(logging_config)
 
     args = parser.parse_args()
