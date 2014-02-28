@@ -1,8 +1,8 @@
 # coding=utf-8
 __author__ = 'jbean'
 
-from dbackups.src.db.postgres import *
-from dbackups.src.db.mysql import *
+from dbackups.db.postgres import *
+from dbackups.db.mysql import *
 
 
 def main():

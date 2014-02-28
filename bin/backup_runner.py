@@ -6,12 +6,11 @@ import logging
 import logging.config
 import sys
 import tempfile
-
 import os
-from fabric.operations import prompt
+
 from pkg_resources import resource_filename
 
-from dbackups.src.util.tools import get_database_object, upload_http_put
+from dbackups.util.tools import get_database_object, upload_http_put
 
 
 __author__ = 'jbean'

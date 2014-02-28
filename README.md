@@ -14,7 +14,6 @@ Setup Requirements:
 Requirements:
 
 * Python 2.7
-* Fabric
 * requests
 
 Install using `pip`.
@@ -26,13 +25,22 @@ Configure
 The purpose of this package is that now backing up multiple databases within an infrastructure. You can also specify
 where to upload the backups.
 
-Config Files:
+Config File:
 
-* config/backup_database.ini
-* config/config_example.ini
+Windows
+
+    %HOMEPATH%\.dbackups\databases.ini
+
+Linux
+
+    HOME/.dbackups/databases.ini
+
+Other
+
+    /tmp/.dbackups/databases.ini
+
 
 ### Example
-
     [example-db]
     # if you want to enable the backup for this database
     enabled = True

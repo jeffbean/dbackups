@@ -6,11 +6,10 @@ import ConfigParser
 import logging
 import logging.config
 import sys
-
 import os
 
-
 from pkg_resources import resource_filename
+
 
 if not os.path.isdir('../logs'):
     os.mkdir('../logs')
@@ -18,11 +17,16 @@ if not os.path.isdir('../logs'):
 logging_config = resource_filename(__name__, '../config/logging.ini')
 logging.config.fileConfig(logging_config)
 
-from dbackups.src.util.tools import get_database_object, upload_http_put
+from dbackups.util.tools import get_database_object, upload_http_put
 
 
 def main():
-    db_config_file = os.path.abspath(os.path.join('/etc/dbackups/databases.ini'))
+    home_dir = os.environ.get('HOMEPATH') if not os.environ.get('HOME') else '/tmp'
+    config_dir = os.path.abspath(os.path.join(home_dir, '.dbackups'))
+    db_config_file = os.path.join(config_dir, 'databases.ini')
+
+    if not os.path.isdir(config_dir):
+        os.mkdir(config_dir)
 
     if not os.path.isfile(db_config_file):
         print('Config File not found. {}'.format(db_config_file))

@@ -1,10 +1,10 @@
 # coding=utf-8
 import logging
-
 import os
-from fabric.operations import local
 
-from dbackups.src.db.database import Database
+
+from dbackups.db.database import Database
+from dbackups.util.commands import assert_command
 
 
 __author__ = 'jbean'
@@ -35,7 +35,7 @@ class PostgresDatabase(Database):
               '"{u}" --dbname "{db}" --no-password  --verbose ' \
               '"{dump_file}"'.format(h=database_object.db_host, p=database_object.db_port, u=database_object.db_user,
                                      db=database_object.db_name, dump_file=database_object.dump_file)
-        local(cmd)
+        assert_command(cmd)
 
     def create_empty_database(self, new_database_name):
         Database.create_empty_database(new_database_name)
@@ -47,7 +47,7 @@ class PostgresDatabase(Database):
         Database.drop_db()
         cmd = 'dropdb --host {h} -p {p} -U {u} {db} --if-exists'.format(
             h=self.db_host, p=self.db_port, u=self.db_user, db=self.db_name)
-        local(cmd)
+        assert_command(cmd)
 
     def dump(self):
         """
@@ -59,7 +59,7 @@ class PostgresDatabase(Database):
               '-F c --oids --verbose'.format(host=self.db_host, port=self.db_port,
                                              user=self.db_user, dbname=self.db_name, file=self.dump_file)
 
-        local(cmd)
+        assert_command(cmd)
 
     def create_pg_pass_file(self):
         """
@@ -81,6 +81,9 @@ class PostgresDatabase(Database):
 
 
 class WindowsPostgresDatabase(Database):
+    def clone(self, another_database_object):
+        raise NotImplementedError
+
     def dump(self):
         """
 
@@ -90,13 +93,13 @@ class WindowsPostgresDatabase(Database):
               '-F c --oids --verbose {dbname}'.format(host=self.db_host, port=self.db_port,
                                                       user=self.db_user, dbname=self.db_name, file=self.dump_file)
 
-        local(cmd)
+        assert_command(cmd)
 
     def drop_db(self):
-        pass
+        raise NotImplementedError
 
     def restore(self, database_object):
-        pass
+        raise NotImplementedError
 
     def create_empty_database(self, new_database_name):
-        pass
+        raise NotImplementedError
