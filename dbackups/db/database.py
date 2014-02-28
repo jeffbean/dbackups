@@ -5,11 +5,8 @@ import datetime
 import os
 from abc import ABCMeta, abstractmethod
 import tempfile
-
-
 __author__ = 'jbean'
-FORMAT = "%(asctime)s %(levelname)-6s line %(lineno)-4s %(message)s"
-logging.basicConfig(format=FORMAT, level=logging.DEBUG)
+
 logger = logging.getLogger()
 
 
@@ -52,6 +49,11 @@ class Database(object):
 
     @abstractmethod
     def dump(self):
+        """
+        This abstract method should be implemented to do a dump mechanic for a DB.
+         The only contract here is that the restore method must be able to use the resulting file of this method.
+
+        """
         pass
 
     @abstractmethod
@@ -64,6 +66,10 @@ class Database(object):
 
     @abstractmethod
     def restore(self, database_object):
+        """
+        This abstract method should be able to take what is produced from the dump method and restore a DB.
+            Here we validate that you are restoring a DB into the same type of DB.
+        """
         logger.debug('Checking if the object given is the same one as we need.')
         if not isinstance(database_object, self.__class__):
             raise RestoreDatabaseMismatchException(

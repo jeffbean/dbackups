@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding=utf-8
-from dbackups.util.commands import CommandError
 
 __author__ = 'jbean'
 
@@ -13,6 +12,8 @@ import os
 from pkg_resources import resource_filename
 
 from dbackups.util.tools import get_database_object, upload_http_put
+
+from dbackups.util.commands import CommandError
 
 
 def main():
@@ -50,6 +51,7 @@ def main():
             map_of_db_objects[db_alias] = db
 
     for db_section, db_obj in map_of_db_objects.iteritems():
+        logging.info('Starting backup of {}'.format(db_obj.db_name))
         try:
             db_obj.dump()
         except CommandError as e:

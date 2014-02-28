@@ -16,10 +16,29 @@ logger = logging.getLogger()
 
 
 class NotSupportedDBTypeException(Exception):
+    """
+    This Exception is to allow the program to give feedback you are trying to connect to an unsupported DB
+    """
     pass
 
 
 def get_database_object(db_type_string, host, name, user, password, port):
+    """
+        This method allows an easy way to obtain the correct DB class you are going to be connecting to.
+
+    @param db_type_string: The string database identifier so the code can retuern the correct Class object
+    @type db_type_string: str
+    @param host: The Host string for the DB connection paramiters
+    @type host: str
+    @param name: The name of the database
+    @type name: str
+    @param user: The connection user for doing the dump.
+    @type user: str
+    @param password: the password connection paramiter
+    @type password: str
+    @param port: port of the connection
+    @type port: int
+    """
     if db_type_string == 'postgresql':
         if sys.platform == 'win32':
             return WindowsPostgresDatabase(host, name, user, password, port)
@@ -34,7 +53,22 @@ def get_database_object(db_type_string, host, name, user, password, port):
         raise NotSupportedDBTypeException('Not a supported DB for this service: {}'.format(db_type_string))
 
 
-def upload_http_put(file_to_upload, upload_url, user, password, verify_request=True):
+def upload_http_put(file_to_upload, upload_url, user=None, password=None, verify_request=True):
+    """
+        This method today has to have authentication but can be expanded to upload to multiple protocols and
+        situations.
+
+    @param file_to_upload: The path to the file for upload. has be able to read
+    @type file_to_upload: str
+    @param upload_url: The http url to do the put to.
+    @type upload_url: str
+    @param user: Basic HTTP Auth username
+    @type user: str
+    @param password: Basic HTTP Auth password
+    @type password: str
+    @param verify_request: If you want to skip the request certificate verification step.
+    @type verify_request: bool
+    """
     logger.info('About to upload file: {}'.format(file_to_upload))
     logger.debug('Upload url: {}'.format(upload_url))
     logger.debug('Upload Credentials -> User: {} Password: {}'.format(user, password))

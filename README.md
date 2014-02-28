@@ -37,7 +37,7 @@ Linux
 
     HOME/.dbackups/databases.ini
 
-
+Add each or your databases as a section of the config file. Defining the connection and upload options.
 
 ### Example
     [example-db]
@@ -45,7 +45,7 @@ Linux
     enabled = True
     # the type of database
     db_type = postgresql
-    # connection paramiters for the DB
+    # connection parameters for the DB
     db_host = host_of_database
     db_name = user
     db_user = postgres
@@ -75,6 +75,7 @@ The `dbackupscron` script has its own log allowing easy triage of the cron scrip
 
 Test install
 ------------
+
 To test that the package installed correctly with the python path setup run the following:
 
     dbackuptest
