@@ -24,7 +24,7 @@ def main():
     if not os.path.isdir(log_dir):
         os.mkdir(log_dir)
 
-    logging_config = resource_filename(__name__, '../config/logging.ini')
+    logging_config = resource_filename(__name__, '../config/cron_logging.ini')
     logging.config.fileConfig(logging_config)
 
     if not os.path.isdir(program_dir):

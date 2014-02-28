@@ -27,6 +27,8 @@ where to upload the backups.
 
 Config File:
 
+This uses python ```os.path.expanduser('~')``` and translates to the following:
+
 Windows
 
     %HOMEPATH%/.dbackups/databases.ini
@@ -35,9 +37,6 @@ Linux
 
     HOME/.dbackups/databases.ini
 
-Other
-
-    /tmp/.dbackups/databases.ini
 
 
 ### Example
@@ -57,6 +56,22 @@ Other
     upload_url = https://backups.example.com/backups/
     upload_user = backupuser
     upload_pass = password543
+
+
+##Logging
+
+Logging for this application today is done by a config file. this can be found in the `config` directory under the
+project root.
+This file gets used by all of the binaries distributed by this application.
+
+By default the logs can be found in the program directory:
+
+
+    ~/.dbackups/logs/
+
+The `dbackupscron` script has its own log allowing easy triage of the cron script
+
+    ~/.dbackups/logs/database_backup_cron.log
 
 Test install
 ------------
