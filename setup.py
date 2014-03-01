@@ -8,11 +8,10 @@ __author__ = 'jbean'
 
 setup(
     name='dbackups',
-    version='1.0',
+    version='0.5',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     author='Jeffrey Bean',
-    author_email='jeff.bean@hds.com',
-    url='hds.com',
+    author_email='jrb3330@gmail.com',
     include_package_data=True,
     entry_points={
         'console_scripts': [

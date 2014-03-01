@@ -12,6 +12,14 @@ class CommandError(Exception):
 
 
 def assert_command(command):
+    """
+        Simple command runner with some logging around it.
+        Assert means we raise an error when any error occurs.
+
+    @param command:  The command to be run
+    @type command: str
+    @raise CommandError
+    """
     logger.debug('Command given: {}'.format(command))
     child = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     (stdoutdata, stderrdata) = child.communicate()

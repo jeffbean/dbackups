@@ -63,10 +63,6 @@ def main():
 
     logging.debug(config.sections())
 
-    if sys.platform == 'win32':
-        cmd = '[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files (x86)\PostgreSQL\8' \
-              '.4\bin",  [System.EnvironmentVariableTarget]::User)'
-
     if not config.has_section(args.database):
         logging.info('DB not found in the config file. [{}]'.format(args.database))
         db_type = prompt('What type of Database are you working with: ', default='postgresql')

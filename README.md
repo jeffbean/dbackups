@@ -16,9 +16,16 @@ Requirements:
 * Python 2.7
 * requests
 
+Install using `virtualenv` and `pip`.
+
+    mkdir -p ~/.venvs
+    virtualenv ~/.venvs/dbackups
+    source ~/.venvs/dbackups/bin/activate
+    pip install dbackups
+
 Install using `pip`.
 
-    pip install git+ssh://git@git.mcp.com/jbean/dbackups.git
+    pip install dbackups
 
 Configure
 ---------
@@ -57,8 +64,8 @@ Add each or your databases as a section of the config file. Defining the connect
     upload_user = backupuser
     upload_pass = password543
 
-
-##Logging
+Logging
+-------
 
 Logging for this application today is done by a config file. this can be found in the `config` directory under the
 project root.
@@ -82,3 +89,17 @@ To test that the package installed correctly with the python path setup run the 
 
 This will do nothing but exercise importing the modules going to be used with the cron script. This also verifies
 that the entry points are working properly.
+
+Windows
+-------
+
+Some more work is involved in getting this to run in windows. And I have not fully tested the happy path for Windows
+as it is `low priority`.
+
+### Binaries
+
+For the postgres server you need to make sure that the Postgresql binaries are in your system path.
+
+To add the directory to your user path run in `Powershell`:
+
+    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files (x86)\PostgreSQL\<version>\bin", [System.EnvironmentVariableTarget]::User)

@@ -18,10 +18,6 @@ class MySQLDatabase(Database):
         raise NotImplementedError
 
     def dump(self):
-        """
-            /usr/bin/pg_dump -h db1 -U postgres jiradb2 -f $BKROOT.$SUF -F c --oids
-            >>$LOGFILE 2>&1
-            """
         args = ''
         logger.info('Dumping database to file: [{}]'.format(self.dump_file))
         if self.db_pass:
