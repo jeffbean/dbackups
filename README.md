@@ -5,8 +5,17 @@ Overview
 --------
 The purpose of this tool is to make backing up databases in bulk easy to do. This service runs database actions based on a config file. No implementation details are needed to backup you common databases.
 
+Currently supports the following Databases for backup:
+
+* PostGreSQL
+* MySQL
+
 Installation
 ------------
+Supported Platforms:
+
+* Linux
+
 Setup Requirements:
 
 * setuptools_git
@@ -36,13 +45,7 @@ Config File:
 
 This uses python ```os.path.expanduser('~')``` and translates to the following:
 
-Windows
-
-    %HOMEPATH%/.dbackups/databases.ini
-
-Linux
-
-    HOME/.dbackups/databases.ini
+    vim ~/.dbackups/databases.ini
 
 Add each or your databases as a section of the config file. Defining the connection and upload options.
 
@@ -73,7 +76,7 @@ command
     dbackupscron
 
 This will try to dump and upload all enabled databases in the config file. This is meant as a first step towards having
- python schedule its own cron and run as a systemd/init/windows service.
+ python schedule its own cron and run as a systemd/init service.
 
 ### Cron Script
 Create a similar cron script in `/etc/cron.daily/`
@@ -87,8 +90,8 @@ Contents:
     source ~/.venvs/dbackups/bin/activate && dbackupscron
 
 
-Logging
--------
+## Logging
+
 
 Logging for this application today is done by a config file. this can be found in the `config` directory under the
 project root.
@@ -96,15 +99,21 @@ This file gets used by all of the binaries distributed by this application.
 
 By default the logs can be found in the program directory:
 
-
     ~/.dbackups/logs/
 
 The `dbackupscron` script has its own log allowing easy triage of the cron script
 
     ~/.dbackups/logs/database_backup_cron.log
 
-Test install
-------------
+## Futures
+
+* Windows support
+* Script to enter new configuration entries to the database.ini
+* Add feature to clone one database to another for Development purposes
+* Add cleanup for the dump files. (relying on temp dir cleanup today)
+* A simple UI to see uploaded backups, and configure database entries.
+
+## Test install
 
 To test that the package installed correctly with the python path setup run the following:
 
@@ -113,27 +122,24 @@ To test that the package installed correctly with the python path setup run the 
 This will do nothing but exercise importing the modules going to be used with the cron script. This also verifies
 that the entry points are working properly.
 
-Windows
--------
 
-Not really supported as I have seen some random behavior.
+## DataBase Troubleshooting
 
-Some more work is involved in getting this to run in windows. And I have not fully tested the happy path for Windows
-as it is `low priority`.
+* [MySQL](docs/mysql.md)
+* [PostGreSQL](docs/postgres.md)
 
-### Postgres Setup
+## Reporting issues
 
-Install the postgres package for windows from the PostgreSQL [here](http://www.postgresql.org/download/windows/)
+As a start please log issues or they might never be fixed!
 
-For the postgres server you need to make sure that the PostgreSQL binaries are in your system path.
+As a guild the following is a checklist of things to check and provide in your issue.
 
-To add the directory to your user path run in `Powershell`:
+* What OS are you running?
+* Please attach the [logs](##Logging)
+* Can you reproduce?
+* What steps did you take to get the issue?
 
-    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\PostgreSQL\9.3\bin", [System.EnvironmentVariableTarget]::User)
 
-### MySQL Setup
+## Documentation Issues
 
-Install MySQL to get the necessary binaries to perform a `mysqldump` from MySQL [here](http://dev.mysql.com/downloads/)
-
-    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\MySQL\MySQL Server 5.6\bin", [System.EnvironmentVariableTarget]::User)
-
+For issues with the documentation or enhancements desired please log an issue with what page the issue is on and all the details about why it is not correct or clarification needed in any part of the docs.

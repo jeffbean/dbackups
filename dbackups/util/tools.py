@@ -40,12 +40,16 @@ def get_database_object(db_type_string, host, name, user, password, port):
     """
     if db_type_string == 'postgresql':
         if sys.platform == 'win32':
-            return WindowsPostgresDatabase(host, name, user, password, port)
+            return NotImplementedError
+            #TODO: support Windows as a place to run FROM
+            #return WindowsPostgresDatabase(host, name, user, password, port)
         else:
             return PostgresDatabase(host, name, user, password, port)
     elif db_type_string == 'mysql':
         if sys.platform == 'win32':
-            return WindowsMySQLDatabase(host, name, user, password, port)
+            return NotImplementedError
+            #TODO: support Windows as a place to run FROM
+            #return WindowsMySQLDatabase(host, name, user, password, port)
         else:
             return MySQLDatabase(host, name, user, password, port)
     else:
