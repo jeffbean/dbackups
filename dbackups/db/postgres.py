@@ -9,7 +9,6 @@ from dbackups.util.commands import assert_command
 
 __author__ = 'jbean'
 
-logger = logging.getLogger()
 
 class PostgresDatabase(Database):
     """
@@ -82,15 +81,15 @@ class PostgresDatabase(Database):
 
         http://www.postgresql.org/docs/8.1/static/libpq-pgpass.html
         """
-        logger.info('Writing a pgpass file for connections to the PGDB.')
+        logging.info('Writing a pgpass file for connections to the PGDB.')
         pg_line = '{}:{}:{}:{}:{}'.format(self.db_host, self.db_port, self.db_name, self.db_user, self.db_pass)
-        logger.debug(pg_line)
+        logging.debug(pg_line)
         pg_pass_file = os.path.normpath(os.path.join(os.getenv('HOME'), '.pgpass'))
 
         with open(pg_pass_file, 'w') as pass_file:
             pass_file.write(pg_line)
 
-        logger.debug('Chmod-ing the file to 600 as per postgres docs.')
+        logging.debug('Chmod-ing the file to 600 as per postgres docs.')
         os.chmod(pg_pass_file, 0600)
 
 
@@ -100,7 +99,7 @@ class WindowsPostgresDatabase(Database):
 
     def dump(self):
         #TODO: Finish implementing the Windows Dump exe path issue. (In docs for now)
-        logger.info('Dumping database to file: [{}]'.format(self.dump_file))
+        logging.info('Dumping database to file: [{}]'.format(self.dump_file))
         cmd = 'pg_dump.exe -h {host} -p {port} -U {user} -f {file} ' \
               '-F c --oids --verbose {dbname}'.format(host=self.db_host, port=self.db_port,
                                                       user=self.db_user, dbname=self.db_name, file=self.dump_file)

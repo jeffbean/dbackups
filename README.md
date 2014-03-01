@@ -116,13 +116,24 @@ that the entry points are working properly.
 Windows
 -------
 
+Not really supported as I have seen some random behavior.
+
 Some more work is involved in getting this to run in windows. And I have not fully tested the happy path for Windows
 as it is `low priority`.
 
-### Binaries
+### Postgres Setup
 
-For the postgres server you need to make sure that the Postgresql binaries are in your system path.
+Install the postgres package for windows from the PostgreSQL [here](http://www.postgresql.org/download/windows/)
+
+For the postgres server you need to make sure that the PostgreSQL binaries are in your system path.
 
 To add the directory to your user path run in `Powershell`:
 
-    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files (x86)\PostgreSQL\<version>\bin", [System.EnvironmentVariableTarget]::User)
+    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\PostgreSQL\9.3\bin", [System.EnvironmentVariableTarget]::User)
+
+### MySQL Setup
+
+Install MySQL to get the necessary binaries to perform a `mysqldump` from MySQL [here](http://dev.mysql.com/downloads/)
+
+    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\MySQL\MySQL Server 5.6\bin", [System.EnvironmentVariableTarget]::User)
+

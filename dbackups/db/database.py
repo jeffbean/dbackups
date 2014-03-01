@@ -7,7 +7,6 @@ from abc import ABCMeta, abstractmethod
 import tempfile
 __author__ = 'jbean'
 
-logger = logging.getLogger()
 
 
 class RestoreDatabaseMismatchException(Exception):
@@ -58,11 +57,11 @@ class Database(object):
 
     @abstractmethod
     def clone(self, another_database_object):
-        logger.debug('Checking if the object given is the same one as we need.')
+        logging.debug('Checking if the object given is the same one as we need.')
         if not isinstance(another_database_object, self.__class__):
             raise RestoreDatabaseMismatchException(
                 'The object to restore needs to be the same Database Object Type as the one being cloned to.')
-        logger.info('Trying to restore {} into {}'.format(self, another_database_object))
+        logging.info('Trying to restore {} into {}'.format(self, another_database_object))
 
     @abstractmethod
     def restore(self, database_object):
@@ -70,11 +69,11 @@ class Database(object):
         This abstract method should be able to take what is produced from the dump method and restore a DB.
             Here we validate that you are restoring a DB into the same type of DB.
         """
-        logger.debug('Checking if the object given is the same one as we need.')
+        logging.debug('Checking if the object given is the same one as we need.')
         if not isinstance(database_object, self.__class__):
             raise RestoreDatabaseMismatchException(
                 'The object to restore needs to be the same Database Object Type as the one being restored to.')
-        logger.info('Trying to restore {} into {}'.format(self, database_object))
+        logging.info('Trying to restore {} into {}'.format(self, database_object))
 
     @abstractmethod
     def create_empty_database(self, new_database_name):

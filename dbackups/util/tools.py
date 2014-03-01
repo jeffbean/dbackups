@@ -12,7 +12,6 @@ from dbackups.db.postgres import WindowsPostgresDatabase, PostgresDatabase
 
 __author__ = 'jbean'
 
-logger = logging.getLogger()
 
 
 class NotSupportedDBTypeException(Exception):
@@ -26,15 +25,15 @@ def get_database_object(db_type_string, host, name, user, password, port):
     """
         This method allows an easy way to obtain the correct DB class you are going to be connecting to.
 
-    @param db_type_string: The string database identifier so the code can retuern the correct Class object
+    @param db_type_string: The string database identifier so the code can return the correct Class object
     @type db_type_string: str
-    @param host: The Host string for the DB connection paramiters
+    @param host: The Host string for the DB connection parameters
     @type host: str
     @param name: The name of the database
     @type name: str
     @param user: The connection user for doing the dump.
     @type user: str
-    @param password: the password connection paramiter
+    @param password: the password connection parameter
     @type password: str
     @param port: port of the connection
     @type port: int
@@ -69,9 +68,9 @@ def upload_http_put(file_to_upload, upload_url, user=None, password=None, verify
     @param verify_request: If you want to skip the request certificate verification step.
     @type verify_request: bool
     """
-    logger.info('About to upload file: {}'.format(file_to_upload))
-    logger.debug('Upload url: {}'.format(upload_url))
-    logger.debug('Upload Credentials -> User: {} Password: {}'.format(user, password))
+    logging.info('About to upload file: {}'.format(file_to_upload))
+    logging.debug('Upload url: {}'.format(upload_url))
+    logging.debug('Upload Credentials -> User: {} Password: {}'.format(user, password))
 
     with open(file_to_upload) as file_obj:
         r = requests.put('{}/{}'.format(upload_url, os.path.basename(file_to_upload)),
@@ -79,6 +78,6 @@ def upload_http_put(file_to_upload, upload_url, user=None, password=None, verify
                          auth=HTTPBasicAuth(user, password),
                          verify=verify_request)
 
-    logger.debug('Request URL: {}'.format(r.url))
+    logging.debug('Request URL: {}'.format(r.url))
     r.raise_for_status()
-    logger.info('Finished uploading file to {}.'.format(r.url))
+    logging.info('Finished uploading file to {}.'.format(r.url))

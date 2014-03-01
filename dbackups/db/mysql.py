@@ -7,7 +7,6 @@ from dbackups.util.commands import assert_command
 
 __author__ = 'jbean'
 
-logger = logging.getLogger()
 
 
 class MySQLDatabase(Database):
@@ -19,10 +18,10 @@ class MySQLDatabase(Database):
 
     def dump(self):
         args = ''
-        logger.info('Dumping database to file: [{}]'.format(self.dump_file))
+        logging.info('Dumping database to file: [{}]'.format(self.dump_file))
         if self.db_pass:
             args += '-p{}'.format(self.db_pass)
-        cmd = '/usr/bin/mysqldump --single-transaction -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
+        cmd = '/usr/bin/mysqldump -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
             host=self.db_host, port=self.db_port,
             args=args, user=self.db_user,
             dbname=self.db_name, file=self.dump_file)
@@ -50,7 +49,16 @@ class WindowsMySQLDatabase(MySQLDatabase):
         raise NotImplementedError
 
     def dump(self):
-        raise NotImplementedError
+        args = ''
+        logging.info('Dumping database to file: [{}]'.format(self.dump_file))
+        if self.db_pass:
+            args += '-p{}'.format(self.db_pass)
+        cmd = 'mysqldump.exe --single-transaction -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
+            host=self.db_host, port=self.db_port,
+            args=args, user=self.db_user,
+            dbname=self.db_name, file=self.dump_file)
+
+        assert_command(cmd)
 
     def restore(self, database_object):
         raise NotImplementedError
