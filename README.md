@@ -1,5 +1,5 @@
-Database Backup Tool
-====================
+Database Backups
+================
 
 Overview
 --------
@@ -63,6 +63,29 @@ Add each or your databases as a section of the config file. Defining the connect
     upload_url = https://backups.example.com/backups/
     upload_user = backupuser
     upload_pass = password543
+
+Running
+-------
+
+Currently the one way to run the job of backing up the configured Databases from the config file is to run the
+command
+
+    dbackupscron
+
+This will try to dump and upload all enabled databases in the config file. This is meant as a first step towards having
+ python schedule its own cron and run as a systemd/init/windows service.
+
+### Cron Script
+Create a similar cron script in `/etc/cron.daily/`
+
+    sudo vim /etc/cron.daily/dbackups.cron
+    sudo chmod +x /etc/cron.daily/dbackups.cron
+
+Contents:
+
+    #!/usr/bash
+    source ~/.venvs/dbackups/bin/activate && dbackupscron
+
 
 Logging
 -------
