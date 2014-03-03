@@ -9,6 +9,8 @@ __author__ = 'jbean'
 setup(
     name='dbackups',
     version='0.5',
+    description='A simple python application that makes database backups a little easier.',
+    url='https://pypi.python.org/pypi/dbackups',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     author='Jeffrey Bean',
     author_email='jrb3330@gmail.com',
