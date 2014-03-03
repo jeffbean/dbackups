@@ -16,7 +16,6 @@ setup(
     entry_points={
         'console_scripts': [
             'dbackupscron = bin.backup_cron:main',
-            'dbackuptest = bin.dbackup_test:main',
         ],
     },
     exclude_package_data={'': ['.gitignore']},

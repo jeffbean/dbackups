@@ -113,15 +113,6 @@ The `dbackupscron` script has its own log allowing easy triage of the cron scrip
 * Add cleanup for the dump files. (relying on temp dir cleanup today)
 * A simple UI to see uploaded backups, and configure database entries.
 
-## Test install
-
-To test that the package installed correctly with the python path setup run the following:
-
-    dbackuptest
-
-This will do nothing but exercise importing the modules going to be used with the cron script. This also verifies
-that the entry points are working properly.
-
 
 ## DataBase Troubleshooting
 
