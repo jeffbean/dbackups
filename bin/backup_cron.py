@@ -12,7 +12,6 @@ import os
 from pkg_resources import resource_filename
 
 from dbackups.util.tools import get_database_object, upload_http_put
-
 from dbackups.util.commands import CommandError
 
 
@@ -21,15 +20,15 @@ def main():
     program_dir = os.path.abspath(os.path.join(home_dir, '.dbackups'))
     db_config_file = os.path.join(program_dir, 'databases.ini')
 
+    if not os.path.isdir(program_dir):
+        os.mkdir(program_dir)
+
     log_dir = os.path.join(program_dir, 'logs')
     if not os.path.isdir(log_dir):
         os.mkdir(log_dir)
 
     logging_config = resource_filename(__name__, '../config/cron_logging.ini')
     logging.config.fileConfig(logging_config)
-
-    if not os.path.isdir(program_dir):
-        os.mkdir(program_dir)
 
     if not os.path.isfile(db_config_file):
         print('Config File not found. {}'.format(db_config_file))
