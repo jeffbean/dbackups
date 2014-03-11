@@ -1,18 +1,17 @@
 # coding=utf-8
-import logging
 import sys
-import os
 
+import os
 import requests
 from requests.auth import HTTPBasicAuth
 
-from dbackups.db.mysql import MySQLDatabase, WindowsMySQLDatabase
-from dbackups.db.postgres import WindowsPostgresDatabase, PostgresDatabase
+from dbackups.db.mysql import MySQLDatabase
+from dbackups.db.postgres import PostgresDatabase
 
 
 __author__ = 'jbean'
 
-
+import logging
 
 class NotSupportedDBTypeException(Exception):
     """
@@ -38,6 +37,8 @@ def get_database_object(db_type_string, host, name, user, password, port):
     @param port: port of the connection
     @type port: int
     """
+    log = logging.getLogger()
+    log.debug('Determining what Class to use for this environment and configuration')
     if db_type_string == 'postgresql':
         if sys.platform == 'win32':
             return NotImplementedError
@@ -75,7 +76,6 @@ def upload_http_put(file_to_upload, upload_url, user=None, password=None, verify
     logging.info('About to upload file: {}'.format(file_to_upload))
     logging.debug('Upload url: {}'.format(upload_url))
     logging.debug('Upload Credentials -> User: {} Password: {}'.format(user, password))
-
     with open(file_to_upload) as file_obj:
         r = requests.put('{}/{}'.format(upload_url, os.path.basename(file_to_upload)),
                          data=file_obj.read(),

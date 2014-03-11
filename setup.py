@@ -8,7 +8,7 @@ __author__ = 'jbean'
 
 setup(
     name='dbackups',
-    version='0.5.2',
+    version='0.5.3',
     description='A simple python application that makes database backups a little easier.',
     url='https://github.com/jeffbean/dbackups',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),

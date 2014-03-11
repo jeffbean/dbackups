@@ -9,7 +9,6 @@ import logging.config
 import sys
 
 import os
-from pkg_resources import resource_filename
 
 from dbackups.util.tools import get_database_object, upload_http_put
 from dbackups.util.commands import CommandError
@@ -27,8 +26,11 @@ def main():
     if not os.path.isdir(log_dir):
         os.mkdir(log_dir)
 
-    logging_config = resource_filename(__name__, '../config/cron_logging.ini')
-    logging.config.fileConfig(logging_config)
+    #logging_config = resource_filename(__name__, '../config/cron_logging.ini')
+    #logging.config.fileConfig(logging_config)
+    logging.basicConfig(level=logging.DEBUG,
+                        filename=os.path.expanduser('~') + '/.dbackups/logs/database_backup_cron.log',
+                        format='%(asctime)s %(levelname)-6s line %(lineno)-4s %(message)s')
 
     if not os.path.isfile(db_config_file):
         print('Config File not found. {}'.format(db_config_file))
@@ -64,6 +66,9 @@ def main():
                         config.get(db_section, 'upload_user'),
                         config.get(db_section, 'upload_pass'),
                         verify_request=False)
+        logging.info('Successfully uploaded database back of [{}] to [{}] '.format(db_obj.db_name,
+                                                                                   config.get(db_section,
+                                                                                              'upload_url'), ))
 
 
 if __name__ == '__main__':

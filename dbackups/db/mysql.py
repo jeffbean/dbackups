@@ -8,7 +8,6 @@ from dbackups.util.commands import assert_command
 __author__ = 'jbean'
 
 
-
 class MySQLDatabase(Database):
     def __init__(self, db_host, db_name, db_user, db_pass, db_port=3306):
         Database.__init__(self, db_host, db_name, db_user, db_pass, db_port)
@@ -16,9 +15,11 @@ class MySQLDatabase(Database):
     def create_empty_database(self, new_database_name):
         raise NotImplementedError
 
-    def dump(self):
+    def dump(self, single_transaction=False):
         args = ''
         logging.info('Dumping database to file: [{}]'.format(self.dump_file))
+        if single_transaction:
+            args += ' --single-transaction '
         if self.db_pass:
             args += '-p{}'.format(self.db_pass)
         cmd = '/usr/bin/mysqldump -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
@@ -48,9 +49,11 @@ class WindowsMySQLDatabase(MySQLDatabase):
     def drop_db(self):
         raise NotImplementedError
 
-    def dump(self):
+    def dump(self, single_transaction=False):
         args = ''
         logging.info('Dumping database to file: [{}]'.format(self.dump_file))
+        if single_transaction:
+            args += ' --single-transaction '
         if self.db_pass:
             args += '-p{}'.format(self.db_pass)
         cmd = 'mysqldump.exe --single-transaction -h {host} -P {port} -u {user} {args} {dbname} > {file}'.format(
