@@ -109,7 +109,7 @@ The `dbackupscron` script has its own log allowing easy triage of the cron scrip
 
 * Windows support
 * Script to enter new configuration entries to the database.ini
-* Add feature to clone one database to another for Development purposes
+* Add feature to clone_to one database to another for Development purposes
 * Add cleanup for the dump files. (relying on temp dir cleanup today)
 * A simple UI to see uploaded backups, and configure database entries.
 

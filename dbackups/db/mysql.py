@@ -29,10 +29,7 @@ class MySQLDatabase(Database):
 
         assert_command(cmd)
 
-    def clone(self, another_database_object):
-        raise NotImplementedError
-
-    def restore(self, database_object):
+    def restore(self, database_object, latest_file=False):
         raise NotImplementedError
 
     def drop_db(self):
@@ -40,9 +37,6 @@ class MySQLDatabase(Database):
 
 
 class WindowsMySQLDatabase(MySQLDatabase):
-    def clone(self, another_database_object):
-        raise NotImplementedError
-
     def create_empty_database(self, new_database_name):
         raise NotImplementedError
 
@@ -63,5 +57,5 @@ class WindowsMySQLDatabase(MySQLDatabase):
 
         assert_command(cmd)
 
-    def restore(self, database_object):
+    def restore(self, database_object, latest_file=False):
         raise NotImplementedError

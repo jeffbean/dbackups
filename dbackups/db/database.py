@@ -5,8 +5,8 @@ import datetime
 import os
 from abc import ABCMeta, abstractmethod
 import tempfile
-__author__ = 'jbean'
 
+__author__ = 'jbean'
 
 
 class RestoreDatabaseMismatchException(Exception):
@@ -56,15 +56,7 @@ class Database(object):
         pass
 
     @abstractmethod
-    def clone(self, another_database_object):
-        logging.debug('Checking if the object given is the same one as we need.')
-        if not isinstance(another_database_object, self.__class__):
-            raise RestoreDatabaseMismatchException(
-                'The object to restore needs to be the same Database Object Type as the one being cloned to.')
-        logging.info('Trying to restore {} into {}'.format(self, another_database_object))
-
-    @abstractmethod
-    def restore(self, database_object):
+    def restore(self, database_object, latest_file):
         """
         This abstract method should be able to take what is produced from the dump method and restore a DB.
             Here we validate that you are restoring a DB into the same type of DB.
@@ -82,6 +74,24 @@ class Database(object):
     @abstractmethod
     def drop_db(self):
         pass
+
+    def clone_to(self, another_database_object, latest_file):
+        """
+        This is to do some steps in order to clone_to one database to another server (or same server different DB name)
+
+        @param another_database_object
+        @type another_database_object Database
+        """
+        logging.debug('Checking if the object given is the same one as we need.')
+        if not isinstance(another_database_object, self.__class__):
+            raise RestoreDatabaseMismatchException(
+                'The object to restore needs to be the same Database Object Type as the one being cloned to.')
+        logging.info('Trying to restore {} into {}'.format(self, another_database_object))
+        if not latest_file:
+            self.dump()
+        another_database_object.drop_db()
+        another_database_object.create_empty_database(another_database_object.db_name)
+        self.restore(another_database_object, latest_file)
 
     def find_latest_dump(self):
         """

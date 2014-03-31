@@ -17,20 +17,7 @@ class PostgresDatabase(Database):
     def __init__(self, db_host, db_name, db_user, db_pass, db_port=5432):
         Database.__init__(self, db_host, db_name, db_user, db_pass, db_port)
 
-    def clone(self, another_database_object):
-        """
-        This is to do some steps in order to clone one database to another server (or same server different DB name)
-
-        @param another_database_object
-        @type another_database_object PostgresDatabase
-        """
-        Database.clone(another_database_object)
-        self.dump()
-        another_database_object.drop_db()
-        another_database_object.create_empty_database(another_database_object.db_name)
-        self.restore(another_database_object)
-
-    def restore(self, database_object):
+    def restore(self, database_object, latest_file=False):
         """
         Restores the dump file from another database objects dump file.
         This can be the same database with a different DB name.
@@ -39,6 +26,9 @@ class PostgresDatabase(Database):
         @type database_object PostgresDatabase
         """
         Database.restore(self, database_object)
+        if latest_file:
+            database_object.dump_file = database_object.find_latest_dump()
+        logging.info('Restoring {} to database {}'.format(database_object.dump_file, database_object.db_name))
         cmd = '/usr/bin/pg_restore --host {h} --port {p} --username ' \
               '"{u}" --dbname "{db}" --no-password ' \
               '"{dump_file}"'.format(h=database_object.db_host, p=database_object.db_port, u=database_object.db_user,
@@ -46,15 +36,15 @@ class PostgresDatabase(Database):
         assert_command(cmd)
 
     def create_empty_database(self, new_database_name):
-        #TODO: impliment me
         Database.create_empty_database(new_database_name)
-        raise NotImplementedError
+        cmd = 'createdb -U {} {}'.format('postgres', new_database_name)
+        assert_command(cmd)
 
     def drop_db(self):
         """
         BEWARE DATA WILL GO BYE BYE
 
-        drop the database. This is meant for the clone feature that is coming. (you cant clone into a DB that already
+        drop the database. This is meant for the clone_to feature that is coming. (you cant clone_to into a DB that already
         exists.)
         """
         Database.drop_db()
@@ -94,9 +84,6 @@ class PostgresDatabase(Database):
 
 
 class WindowsPostgresDatabase(Database):
-    def clone(self, another_database_object):
-        raise NotImplementedError
-
     def dump(self):
         #TODO: Finish implementing the Windows Dump exe path issue. (In docs for now)
         logging.info('Dumping database to file: [{}]'.format(self.dump_file))
@@ -109,7 +96,7 @@ class WindowsPostgresDatabase(Database):
     def drop_db(self):
         raise NotImplementedError
 
-    def restore(self, database_object):
+    def restore(self, database_object, latest_file=False):
         raise NotImplementedError
 
     def create_empty_database(self, new_database_name):
