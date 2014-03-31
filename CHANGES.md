@@ -1,3 +1,7 @@
+0.5.3
+-----
+* Added feature to clone one database to another for Development purposes  (dbackups_cli)
+
 0.5.2
 -----
 

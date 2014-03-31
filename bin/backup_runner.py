@@ -70,10 +70,10 @@ def main():
     logging.debug(config.sections())
 
     if not config.has_section(args.database):
-        print('DB alias not found in the config file {} -> [{}]'.format(db_config_file, args.database))
+        logging.info('DB alias not found in the config file {} -> [{}]'.format(db_config_file, args.database))
         sys.exit(1)
     else:
-        print('Found the DB settings in the config file. Continuing.')
+        logging.info('Found the DB settings in the config file. Continuing.')
         db_type = config.get(args.database, 'db_type')
         db_host = config.get(args.database, 'db_host')
         db_user = config.get(args.database, 'db_user')

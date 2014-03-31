@@ -70,6 +70,8 @@ Add each or your databases as a section of the config file. Defining the connect
 Running
 -------
 
+## dbackupscron
+
 Currently the one way to run the job of backing up the configured Databases from the config file is to run the
 command
 
@@ -77,6 +79,23 @@ command
 
 This will try to dump and upload all enabled databases in the config file. This is meant as a first step towards having
  python schedule its own cron and run as a systemd/init service.
+
+
+## dbackups_cli
+
+This command that is configured to be in your runtime path will allow for some extensible actions.
+
+To run just an on demand backup of a database in the configuration file run the following:
+
+    dbackups_cli backup example-db
+
+To clone from one database to another you can use the clone command:
+
+    dbackups_cli clone <dev-host> <dev_port> <dev_user> example-db
+
+You can also specify a password with this command.
+
+As of today the DB that you want to clone from needs to be in the ```database config``` file!
 
 ### Cron Script
 Create a similar cron script in `/etc/cron.daily/`
@@ -109,7 +128,6 @@ The `dbackupscron` script has its own log allowing easy triage of the cron scrip
 
 * Windows support
 * Script to enter new configuration entries to the database.ini
-* Add feature to clone one database to another for Development purposes
 * Add cleanup for the dump files. (relying on temp dir cleanup today)
 * A simple UI to see uploaded backups, and configure database entries.
 
