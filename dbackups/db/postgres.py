@@ -25,18 +25,18 @@ class PostgresDatabase(Database):
         @param database_object A postgres database object that has a dump file.
         @type database_object PostgresDatabase
         """
-        Database.restore(self, database_object)
+        Database.restore(self, database_object, latest_file)
         if latest_file:
-            database_object.dump_file = database_object.find_latest_dump()
+            self.dump_file = self.find_latest_dump()
         logging.info('Restoring {} to database {}'.format(database_object.dump_file, database_object.db_name))
         cmd = '/usr/bin/pg_restore --host {h} --port {p} --username ' \
               '"{u}" --dbname "{db}" --no-password ' \
               '"{dump_file}"'.format(h=database_object.db_host, p=database_object.db_port, u=database_object.db_user,
-                                     db=database_object.db_name, dump_file=database_object.dump_file)
+                                     db=database_object.db_name, dump_file=self.dump_file)
         assert_command(cmd)
 
     def create_empty_database(self, new_database_name):
-        Database.create_empty_database(new_database_name)
+        Database.create_empty_database(self, new_database_name)
         cmd = 'createdb -U {} {}'.format('postgres', new_database_name)
         assert_command(cmd)
 
@@ -44,10 +44,10 @@ class PostgresDatabase(Database):
         """
         BEWARE DATA WILL GO BYE BYE
 
-        drop the database. This is meant for the clone_to feature that is coming. (you cant clone_to into a DB that already
+        drop the database. This is meant for the clone feature that is coming. (you cant clone into a DB that already
         exists.)
         """
-        Database.drop_db()
+        Database.drop_db(self)
         cmd = 'dropdb --host {h} -p {p} -U {u} {db} --if-exists'.format(
             h=self.db_host, p=self.db_port, u=self.db_user, db=self.db_name)
         assert_command(cmd)
