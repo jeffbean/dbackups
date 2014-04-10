@@ -91,13 +91,14 @@ To run just an on demand backup of a database in the configuration file run the 
 
 To clone from one database to another you can use the clone command:
 
-    dbackups_cli clone <dev-host> <dev_port> <dev_user> example-db
+    dbackups_cli clone dev-host dev_port dev_user new_db_name example-db
 
 You can also specify a password with this command.
 
 As of today the DB that you want to clone from needs to be in the ```database config``` file!
 
 ### Cron Script
+
 Create a similar cron script in `/etc/cron.daily/`
 
     sudo vim /etc/cron.daily/dbackups.cron

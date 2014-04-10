@@ -9,8 +9,7 @@ import sys
 import tempfile
 import os
 
-from pkg_resources import resource_filename
-
+from dbackups.util import cleanup_backups
 from dbackups.util.tools import get_database_object, upload_http_put
 
 
@@ -33,13 +32,15 @@ backup_parser = sub_parser.add_parser('backup', help='Helper functions for backi
 backup_parser.add_argument('--upload_url', default=None, help='Target URL to upload the resulting backup.')
 
 clone_parser = sub_parser.add_parser('clone', help='Clone a production DB into a development DB.')
-clone_parser.add_argument('dev_host', default='localhost', help='The host you want to publish the dumped database '
-                                                                  'to.')
+clone_parser.add_argument('dev_host', default='localhost', help='The host you want to publish the dumped database to.')
 clone_parser.add_argument('dev_port', help='The port to the DB going to be restored to.')
 clone_parser.add_argument('dev_user', help='The  user that can perform a restore.')
+clone_parser.add_argument('dev_name', help='The name of the database that will be the clone.')
 clone_parser.add_argument('--dev_pass', default='', help='The user password for performing the actions.')
 clone_parser.add_argument('-l', dest='latest_local', default=False, action='store_true',
                           help='If you want to use the latest local dump.')
+
+clean_parser = sub_parser.add_parser('clean', help='Cleans the dump directory so we don\'t run out of space on disk.')
 
 parser.add_argument('database', help='The database name you want to clone.')
 
@@ -94,11 +95,16 @@ def main():
             upload_http_put(db_object.dump_file, args.upload_url)
 
     if args.command == 'clone':
-        print('what.')
         logging.info('Going to clone_to from one DB to another.')
-        dev_db = get_database_object(db_type, args.dev_host, '{}-dev'.format(db_name), args.dev_user, args.dev_pass,
+        dev_db = get_database_object(db_type, args.dev_host, args.dev_name, args.dev_user, args.dev_pass,
                                      args.dev_port)
         db_object.clone_to(dev_db, args.latest_local)
+
+    if args.command == 'clean':
+        logging.info('Cleaning the dumps directory to make room for more dumps.')
+        file_list = cleanup_backups.find_files_for_delete(db_object.get_dump_dir(), db_object.db_host,
+                                                          db_object.db_name)
+        cleanup_backups.delete_file_list(file_list)
 
 
 if __name__ == '__main__':

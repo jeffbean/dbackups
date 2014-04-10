@@ -78,7 +78,7 @@ def upload_http_put(file_to_upload, upload_url, user=None, password=None, verify
     logging.debug('Upload Credentials -> User: {} Password: {}'.format(user, password))
     with open(file_to_upload) as file_obj:
         r = requests.put('{}/{}'.format(upload_url, os.path.basename(file_to_upload)),
-                         data=file_obj.read(),
+                         data=file_obj,
                          auth=HTTPBasicAuth(user, password),
                          verify=verify_request)
 

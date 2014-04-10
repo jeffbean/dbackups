@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
+from requests import HTTPError
+
+from dbackups.util import cleanup_backups
+
 
 __author__ = 'jbean'
 
@@ -60,15 +64,21 @@ def main():
             logging.error('Failed to dump database: {}'.format(db_obj.db_name))
             logging.info('Moving on to the next database.')
             continue
+        try:
+            upload_http_put(db_obj.dump_file,
+                            config.get(db_section, 'upload_url'),
+                            config.get(db_section, 'upload_user'),
+                            config.get(db_section, 'upload_pass'),
+                            verify_request=False)
+            logging.info('Successfully uploaded database back of [{}] to [{}] '.format(db_obj.db_name,
+                                                                                       config.get(db_section,
+                                                                                                  'upload_url'), ))
+        except HTTPError as httperror:
+            logging.exception(httperror)
+            logging.error('Failed to Upload the backup to the configured location.')
 
-        upload_http_put(db_obj.dump_file,
-                        config.get(db_section, 'upload_url'),
-                        config.get(db_section, 'upload_user'),
-                        config.get(db_section, 'upload_pass'),
-                        verify_request=False)
-        logging.info('Successfully uploaded database back of [{}] to [{}] '.format(db_obj.db_name,
-                                                                                   config.get(db_section,
-                                                                                              'upload_url'), ))
+        file_list = cleanup_backups.find_files_for_delete(db_obj.get_dump_dir(), db_obj.db_host, db_obj.db_name)
+        cleanup_backups.delete_file_list(file_list)
 
 
 if __name__ == '__main__':

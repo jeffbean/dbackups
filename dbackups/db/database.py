@@ -46,6 +46,9 @@ class Database(object):
         else:
             raise OSError()
 
+    def get_dump_dir(self):
+        return os.path.dirname(self._dump_file)
+
     @abstractmethod
     def dump(self):
         """
