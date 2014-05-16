@@ -4,3 +4,8 @@ dist/*
 build/*
 logs/*
 setuptools-2.2.tar.gz
+### Django ###
+*.log
+*.pot
+*.pyc
+local_settings.py
