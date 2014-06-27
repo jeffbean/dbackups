@@ -78,7 +78,7 @@ class Database(object):
     def drop_db(self):
         pass
 
-    def clone_to(self, another_database_object, latest_file):
+    def clone_to(self, another_database_object, latest_file=None):
         """
         This is to do some steps in order to clone one database to another server (or same server different DB name)
 
@@ -91,8 +91,8 @@ class Database(object):
                 'The object to restore needs to be the same Database Object Type as the one being cloned to.')
         logging.info('Trying to restore {} into {}'.format(self, another_database_object))
         if not latest_file:
-            print('dumping DB')
             self.dump()
+            latest_file = self.dump_file
         another_database_object.drop_db()
         another_database_object.create_empty_database(another_database_object.db_name)
         self.restore(another_database_object, latest_file)

@@ -2,6 +2,7 @@
 import os
 import tempfile
 from unittest import TestCase
+from mock import patch
 
 from dbackups.db.database import Database
 
@@ -24,32 +25,34 @@ class TestDatabaseClass(Database):
 
 
 class TestDatabase(TestCase, TestDatabaseClass):
+    test_db_host = 'foo-host'
+    test_db_name = 'bar-db'
+    test_db_user = 'testuser1'
+    test_db_password = 'testuserpass'
+    test_db_port = 1324
+
     def setUp(self):
-        self.db_obj = TestDatabaseClass('host-test', 'test_name', 'test_user', 'test_password', 1234)
+        self.tempfile_gettempdir = tempfile.gettempdir()
+
+        self.db_obj = TestDatabaseClass(self.test_db_host, self.test_db_name, self.test_db_user, self.test_db_password,
+                                        self.test_db_port)
+        self.db_obj_2 = TestDatabaseClass(self.test_db_host, self.test_db_name, self.test_db_user,
+                                          self.test_db_password,
+                                          self.test_db_port)
 
     def test_dump_file_name(self):
-        self.assertEqual(self.db_obj.dump_file_name, '{}-{}-{}.dump'.format(self.db_obj.db_host,
-                                                                            self.db_obj.db_name,
+        self.assertEqual(self.db_obj.dump_file_name, '{}-{}-{}.dump'.format(self.test_db_host,
+                                                                            self.test_db_name,
                                                                             self.db_obj.now_stamp))
 
     def test_dump_file(self):
-        self.assertEqual(self.db_obj.dump_file, os.path.join(tempfile.gettempdir(), self.db_obj.dump_file_name))
+        self.assertEqual(self.db_obj.dump_file, os.path.join(self.tempfile_gettempdir, self.db_obj.dump_file_name))
         self.assertRaises(OSError, setattr, self.db_obj, 'dump_file', '/fooadfa')
 
-    def test_dump(self):
-        self.fail()
+    @patch('TestDatabaseClass')
+    def test_clone_to(self, mock_class):
+        self.db_obj.clone_to(mock_class)
 
-    def test_restore(self):
-        self.fail()
-
-    def test_create_empty_database(self):
-        self.fail()
-
-    def test_drop_db(self): 
-        self.fail()
-
-    def test_clone_to(self):
-        self.fail()
 
     def test_find_latest_dump(self):
         self.fail()

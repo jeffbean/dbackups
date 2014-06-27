@@ -24,5 +24,6 @@ setup(
     exclude_package_data={'': ['.gitignore']},
     install_requires=open('requirements.txt').read(),
     setup_requires=open('setup_requirements.txt').read(),
+    tests_require=['mock'],
     zip_safe=False,
 )
