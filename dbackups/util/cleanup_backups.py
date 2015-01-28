@@ -22,7 +22,7 @@ def find_files_for_delete(base_directory, db_host, db_name, number_to_keep=5):
     starts_with_string = '{}-{}'.format(db_host, db_name)
     files = [os.path.join(dump_dir, f) for f in os.listdir(dump_dir)
              if os.path.isfile(os.path.join(dump_dir, f)) and
-                f.startswith(starts_with_string)]
+             f.startswith(starts_with_string)]
     sorted_files = sorted(files, key=os.path.getmtime, reverse=True)
     if sorted_files:
         logging.debug('Found list of dumps that match the database.')

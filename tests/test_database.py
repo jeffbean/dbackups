@@ -53,6 +53,5 @@ class TestDatabase(TestCase, TestDatabaseClass):
     def test_clone_to(self, mock_class):
         self.db_obj.clone_to(mock_class)
 
-
     def test_find_latest_dump(self):
         self.fail()

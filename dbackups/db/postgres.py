@@ -80,7 +80,7 @@ class PostgresDatabase(Database):
             pass_file.write(pg_line)
 
         logging.debug('Chmod-ing the file to 600 as per postgres docs.')
-        os.chmod(pg_pass_file, 0600)
+        os.chmod(pg_pass_file, 0o600)
 
 
 class WindowsPostgresDatabase(Database):
